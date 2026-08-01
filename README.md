@@ -77,8 +77,7 @@ Built as a portfolio project to pair with a real, working backend (not a mock/de
 ![Budgets](docs/screenshots/Budgets.png)
 
 ### Mobile / Responsive Layout
-<img src="docs/screenshots/mobile view.png" alt="Mobile view" width="300" /> 
-
+<img src="docs/screenshots/mobile view.png" alt="Mobile view" width="300" />
 ## Related Repo
 
 Backend API: [personal-finance-tracker-api](https://github.com/JisooKang03/personal-finance-tracker-api)
