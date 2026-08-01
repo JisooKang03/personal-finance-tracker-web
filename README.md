@@ -65,19 +65,19 @@ Built as a portfolio project to pair with a real, working backend (not a mock/de
 ![Login](docs/screenshots/login.png)
 
 ### Dashboard
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/Dashboard.png)
 
 ### Accounts
-![Accounts](docs/screenshots/accounts.png)
+![Accounts](docs/screenshots/Accounts.png)
 
 ### Transactions (with receipt upload/view)
-![Transactions](docs/screenshots/transactions.png)
+![Transactions](docs/screenshots/Transactions.png)
 
 ### Budgets
-![Budgets](docs/screenshots/budgets.png)
+![Budgets](docs/screenshots/Budgets.png)
 
 ### Mobile / Responsive Layout
-<img src="docs/screenshots/mobile.png" alt="Mobile view" width="300" />
+<img src="docs/screenshots/mobile view.png" alt="Mobile view" width="300" /> 
 
 ## Related Repo
 
