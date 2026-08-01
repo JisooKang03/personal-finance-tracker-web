@@ -7,10 +7,12 @@ import { getBudgets } from '../api/budgets';
 import type { Account } from '../api/accounts';
 import type { Transaction } from '../api/transactions';
 import type { Budget } from '../api/budgets';
+import { DashboardCharts } from '../components/DashboardCharts';
 
 export function Dashboard() {
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [allTransactions, setAllTransactions] = useState<Transaction[]>([]);
+  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -27,7 +29,8 @@ export function Dashboard() {
     ])
       .then(([accountsData, transactionsData, budgetsData]) => {
         setAccounts(accountsData);
-        setTransactions(transactionsData.slice(0, 5)); // 5 most recent
+        setAllTransactions(transactionsData);
+        setRecentTransactions(transactionsData.slice(0, 5));
         setBudgets(budgetsData);
       })
       .catch((err) => {
@@ -107,14 +110,16 @@ export function Dashboard() {
         </div>
       </div>
 
+      <DashboardCharts transactions={allTransactions} />
+
       <div className="dashboard-grid">
         <section className="dashboard-panel">
           <h2>Recent transactions</h2>
-          {transactions.length === 0 ? (
+          {recentTransactions.length === 0 ? (
             <p className="empty-state">No transactions yet.</p>
           ) : (
             <ul className="transaction-list">
-              {transactions.map((t) => (
+              {recentTransactions.map((t) => (
                 <li key={t.id}>
                   <div>
                     <span className="tx-description">
