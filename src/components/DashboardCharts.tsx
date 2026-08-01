@@ -58,7 +58,7 @@ import {
                 </Pie>
                 <Tooltip
                   contentStyle={{ background: '#1a2540', border: '1px solid #2a3655', borderRadius: 8 }}
-                  formatter={(value: number) => `$${value.toFixed(2)}`}                />
+                  formatter={(value) => `$${Number(value ?? 0).toFixed(2)}`}                />
                 <Legend wrapperStyle={{ fontSize: '0.8rem' }} />
               </PieChart>
             </ResponsiveContainer>
@@ -74,7 +74,7 @@ import {
               <YAxis stroke="#94a3b8" fontSize={12} />
               <Tooltip
                 contentStyle={{ background: '#1a2540', border: '1px solid #2a3655', borderRadius: 8 }}
-                formatter={(value: number) => `$${value.toFixed(2)}`}              />
+                formatter={(value) => `$${Number(value ?? 0).toFixed(2)}`}              />
               <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
                 <Cell fill="#10b981" />
                 <Cell fill="#f87171" />
