@@ -1,4 +1,7 @@
 # Personal Finance Tracker — Web
+🔗 **Live demo:** [personal-finance-tracker-web-ten.vercel.app](https://personal-finance-tracker-web-ten.vercel.app)
+
+> Try it with a fresh account via "Create one" on the login page — the backend API is hosted on a free tier and may take up to a minute to wake up on first request.
 
 A full-featured, responsive React frontend for tracking personal finances — connects to a secure ASP.NET Core API with JWT authentication, Azure Blob Storage receipt uploads, and role-based access control.
 
