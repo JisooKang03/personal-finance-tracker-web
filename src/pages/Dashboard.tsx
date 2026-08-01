@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { Skeleton, CardSkeleton } from '../components/Skeleton';
 import { getAccounts } from '../api/accounts';
 import { getTransactions } from '../api/transactions';
 import { getBudgets } from '../api/budgets';
@@ -29,7 +30,15 @@ export function Dashboard() {
         setTransactions(transactionsData.slice(0, 5)); // 5 most recent
         setBudgets(budgetsData);
       })
-      .catch(() => setError('Failed to load dashboard data.'))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          setError('Your session expired. Please sign in again.');
+        } else if (!err.response) {
+          setError('Cannot reach the server. Is the API running?');
+        } else {
+          setError('Something went wrong loading your dashboard.');
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -38,7 +47,32 @@ export function Dashboard() {
   if (loading) {
     return (
       <Layout>
-        <p className="loading-text">Loading dashboard...</p>
+        <div className="page-header">
+          <h1>Dashboard</h1>
+          <p>Your financial overview at a glance</p>
+        </div>
+        <div className="skeleton-grid" style={{ marginBottom: '2rem' }}>
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+        <div className="dashboard-grid">
+          <div className="dashboard-panel">
+            <Skeleton height="1rem" width="140px" />
+            <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <Skeleton height="2.5rem" />
+              <Skeleton height="2.5rem" />
+              <Skeleton height="2.5rem" />
+            </div>
+          </div>
+          <div className="dashboard-panel">
+            <Skeleton height="1rem" width="140px" />
+            <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <Skeleton height="2.5rem" />
+              <Skeleton height="2.5rem" />
+            </div>
+          </div>
+        </div>
       </Layout>
     );
   }

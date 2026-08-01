@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { CardSkeleton } from '../components/Skeleton';
 import { getCategories } from '../api/categories';
 import { getBudgets, createBudget, deleteBudget } from '../api/budgets';
 import type { Category } from '../api/categories';
@@ -32,7 +33,15 @@ export function Budgets() {
         setBudgets(b);
         setCategories(c.filter((cat) => cat.type === 'Expense'));
       })
-      .catch(() => setError('Failed to load budgets.'))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          setError('Your session expired. Please sign in again.');
+        } else if (!err.response) {
+          setError('Cannot reach the server. Is the API running?');
+        } else {
+          setError('Something went wrong loading your budgets.');
+        }
+      })
       .finally(() => setLoading(false));
   };
 
@@ -136,7 +145,11 @@ export function Budgets() {
       {error && <p className="error-text">{error}</p>}
 
       {loading ? (
-        <p className="loading-text">Loading budgets...</p>
+        <div className="skeleton-grid">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       ) : budgets.length === 0 ? (
         <p className="empty-state">No budgets set for {MONTH_NAMES[month - 1]} {year}.</p>
       ) : (

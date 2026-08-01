@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { CardSkeleton } from '../components/Skeleton';
 import { getAccounts } from '../api/accounts';
 import { getCategories } from '../api/categories';
 import {
@@ -39,7 +40,15 @@ export function Transactions() {
         setAccounts(acc);
         setCategories(cat);
       })
-      .catch(() => setError('Failed to load transactions.'))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          setError('Your session expired. Please sign in again.');
+        } else if (!err.response) {
+          setError('Cannot reach the server. Is the API running?');
+        } else {
+          setError('Something went wrong loading your transactions.');
+        }
+      })
       .finally(() => setLoading(false));
   };
 
@@ -65,8 +74,14 @@ export function Transactions() {
       setDescription('');
       setShowForm(false);
       loadData();
-    } catch {
-      setError('Failed to create transaction.');
+    } catch (err: any) {
+      if (err.response?.status === 403) {
+        setError('You do not have access to that account.');
+      } else if (err.response?.status === 400) {
+        setError('Please check the category and amount and try again.');
+      } else {
+        setError('Failed to create transaction.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -88,8 +103,12 @@ export function Transactions() {
     try {
       await uploadReceipt(id, file);
       loadData();
-    } catch {
-      setError('Failed to upload receipt.');
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        setError(err.response.data?.message || 'Invalid file. Use JPEG, PNG, or WebP under 5MB.');
+      } else {
+        setError('Failed to upload receipt.');
+      }
     } finally {
       setUploadingId(null);
     }
@@ -192,7 +211,11 @@ export function Transactions() {
       {error && <p className="error-text">{error}</p>}
 
       {loading ? (
-        <p className="loading-text">Loading transactions...</p>
+        <div className="skeleton-grid">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       ) : transactions.length === 0 ? (
         <p className="empty-state">No transactions yet.</p>
       ) : (

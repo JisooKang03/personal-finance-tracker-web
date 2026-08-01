@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { CardSkeleton } from '../components/Skeleton';
 import { getAccounts, createAccount, deleteAccount } from '../api/accounts';
 import type { Account } from '../api/accounts';
 
@@ -17,7 +18,15 @@ export function Accounts() {
     setLoading(true);
     getAccounts()
       .then(setAccounts)
-      .catch(() => setError('Failed to load accounts.'))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          setError('Your session expired. Please sign in again.');
+        } else if (!err.response) {
+          setError('Cannot reach the server. Is the API running?');
+        } else {
+          setError('Something went wrong loading your accounts.');
+        }
+      })
       .finally(() => setLoading(false));
   };
 
@@ -35,7 +44,7 @@ export function Accounts() {
       setShowForm(false);
       loadAccounts();
     } catch {
-      setError('Failed to create account.');
+      setError('Failed to create account. Please check your input and try again.');
     } finally {
       setSubmitting(false);
     }
@@ -47,7 +56,7 @@ export function Accounts() {
       await deleteAccount(id);
       loadAccounts();
     } catch {
-      setError('Failed to delete account.');
+      setError('Failed to delete account. It may have existing transactions.');
     }
   };
 
@@ -95,7 +104,11 @@ export function Accounts() {
       {error && <p className="error-text">{error}</p>}
 
       {loading ? (
-        <p className="loading-text">Loading accounts...</p>
+        <div className="skeleton-grid">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       ) : accounts.length === 0 ? (
         <p className="empty-state">No accounts yet. Create your first one above.</p>
       ) : (
