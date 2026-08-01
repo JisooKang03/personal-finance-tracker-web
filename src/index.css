@@ -735,12 +735,13 @@ body {
     width: 100%;
     flex-direction: row;
     align-items: center;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.75rem;
     overflow-x: auto;
+    gap: 0.5rem;
   }
 
   .sidebar-header {
-    padding: 0 1rem 0 0;
+    padding: 0 0.75rem 0 0;
     border-bottom: none;
     border-right: 1px solid var(--border);
     margin-bottom: 0;
@@ -749,28 +750,39 @@ body {
 
   .sidebar-links {
     flex-direction: row;
-    padding: 0 0.5rem;
-    flex: 1;
-    overflow-x: auto;
+    padding: 0;
+    gap: 0.15rem;
+    flex-shrink: 0;
   }
 
   .sidebar-links a {
     white-space: nowrap;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.8rem;
   }
 
   .sidebar-footer {
     border-top: none;
     border-left: 1px solid var(--border);
-    padding: 0 0 0 1rem;
+    padding: 0 0 0 0.75rem;
     margin-top: 0;
+    margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     flex-shrink: 0;
   }
 
   .user-info {
     margin-bottom: 0;
+    display: none;
+  }
+
+  .logout-btn {
+    width: auto;
+    white-space: nowrap;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
   }
 
   .main-content {
